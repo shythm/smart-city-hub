@@ -20,8 +20,8 @@ function parseCateId(cateid: string): [number, number | undefined] {
   return [parseInt(cate[0]), parseInt(cate[1])];
 }
 
-export default async function Page(props: { params: { lang: Locale; cateid: string } }) {
-  const { lang, cateid } = props.params;
+export default async function Page(props: { params: Promise<{ lang: Locale; cateid: string }> }) {
+  const { lang, cateid } = (await props.params);
   const [cateMain, cateSub] = parseCateId(cateid);
 
   const category = getSolutionCategory(cateMain, lang);
