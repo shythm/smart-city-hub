@@ -1,7 +1,7 @@
 "use client";
 
 import { Locale, ProjectRecordItem } from "core/model";
-import React, { useState, useRef, useEffect, useLayoutEffect } from "react";
+import React, { useState, useRef, useEffect, useLayoutEffect, use } from "react";
 import { useRouter } from "next/navigation";
 import { getProjectRecordList, setProjectRecordList } from "@/actions";
 
@@ -103,14 +103,15 @@ function ProjectRecordItemView(props: {
   );
 }
 
-export default function Page(props: { params: { lang: Locale } }) {
+export default function Page(props: { params: Promise<{ lang: Locale }> }) {
+  const params = use(props.params);
   const [projects, setProjects] = useState<{ id: number; item: ProjectRecordItem }[]>([]);
   const [firstRender, setFirstRender] = useState(true);
   const router = useRouter();
 
   useEffect(() => {
     if (firstRender) {
-      getProjectRecordList(props.params.lang).then((data) =>
+      getProjectRecordList(params.lang).then((data) =>
         setProjects(
           data.map((item, id) => ({
             id,
@@ -225,7 +226,7 @@ export default function Page(props: { params: { lang: Locale } }) {
             onClick={async (e) => {
               e.preventDefault();
               await setProjectRecordList(
-                props.params.lang,
+                params.lang,
                 projects!.map((proj) => proj.item)
               );
               alert("저장되었습니다.");

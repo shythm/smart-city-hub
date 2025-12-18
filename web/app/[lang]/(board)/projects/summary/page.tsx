@@ -4,13 +4,13 @@ import { initTranslation } from "@locales";
 import { SecretLink } from "@components/secret-components";
 
 export default async function ProjectSummaryPage(props: {
-  params: { lang: Locale };
-  searchParams: { sort: string };
+  params: Promise<{ lang: Locale }>;
+  searchParams: Promise<{ sort: string }>;
 }) {
-  const projects = await repo.projectRecord.pickLocale(props.params.lang).getItemList();
-  const { t } = await initTranslation(props.params.lang);
+  const projects = await repo.projectRecord.pickLocale((await props.params).lang).getItemList();
+  const { t } = await initTranslation((await props.params).lang);
 
-  const { sort } = props.searchParams;
+  const { sort } = (await props.searchParams);
   if (sort) {
     sort === "desc" && projects.reverse();
   } else {

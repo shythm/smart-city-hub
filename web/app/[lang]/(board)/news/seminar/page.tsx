@@ -3,10 +3,10 @@ import CardLink from "@components/card-link";
 import { Pagination } from "@components/general-article-view";
 import { SecretLink } from "@components/secret-components";
 
-export default async function SeminarListPage(props: { searchParams?: { page?: string } }) {
+export default async function SeminarListPage(props: { searchParams?: Promise<{ page?: string }> }) {
   const totalCount = await repo.generalArticle.getCountByKind("seminar");
   const perPage = 6;
-  const page = parseInt(props.searchParams?.page || "1");
+  const page = parseInt((await props.searchParams)?.page || "1");
 
   const articles = await repo.generalArticle.getList(page, perPage, {
     kindRegex: "seminar",

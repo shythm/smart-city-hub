@@ -1,4 +1,5 @@
-"use client";
+"use client";;
+import { use } from "react";
 
 import { Locale } from "core/model";
 import dynamic from "next/dynamic";
@@ -8,8 +9,9 @@ const PrimaryArticleEditorPage = dynamic(() => import("@pages/primary-article-ed
   ssr: false,
 });
 
-export default function AseanEditor(props: { params: { lang: Locale; country: string } }) {
-  const { lang, country } = props.params;
+export default function AseanEditor(props: { params: Promise<{ lang: Locale; country: string }> }) {
+  const params = use(props.params);
+  const { lang, country } = params;
   const router = useRouter();
 
   return (

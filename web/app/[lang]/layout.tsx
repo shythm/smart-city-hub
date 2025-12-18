@@ -37,7 +37,7 @@ export default async function RootLayout(
     params: { lang: string };
   }>
 ) {
-  const lang = props.params.lang;
+  const lang = (await props.params).lang;
   const { t } = await initTranslation(lang);
 
   return (

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useActionState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
@@ -10,10 +10,9 @@ import SubmitButton from "@components/submit-button";
 import { useLoginState } from "@components/login-context";
 
 import { doLogin } from "@/actions";
-import { useFormState } from "react-dom";
 
 export default function LoginPage() {
-  const [state, formAction] = useFormState(doLogin, {});
+  const [state, formAction] = useActionState(doLogin, {});
   const { setLoginUser } = useLoginState();
   const router = useRouter();
   const { t } = useTranslation();

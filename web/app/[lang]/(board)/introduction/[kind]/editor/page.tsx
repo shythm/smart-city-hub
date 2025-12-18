@@ -1,4 +1,5 @@
-"use client";
+"use client";;
+import { use } from "react";
 
 import { Locale } from "core/model";
 import dynamic from "next/dynamic";
@@ -9,9 +10,10 @@ const PrimaryArticleEditorPage = dynamic(() => import("@pages/primary-article-ed
 });
 
 export default async function IntroductionEditor(props: {
-  params: { lang: Locale; kind: string };
+  params: Promise<{ lang: Locale; kind: string }>;
 }) {
-  const { lang, kind } = props.params;
+  const params = use(props.params);
+  const { lang, kind } = params;
   const router = useRouter();
 
   return (
