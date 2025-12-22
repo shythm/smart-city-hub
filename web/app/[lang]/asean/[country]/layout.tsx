@@ -9,13 +9,18 @@ import { getPageCoverImage } from "@resources/images/page-covers";
 import { aseanFlags } from "@resources/images/asean-flags";
 import { repo } from "@/di";
 
-export default async function Layout({
-  children,
-  params,
-}: {
-  children: React.ReactNode;
-  params: { lang: Locale; country: string };
-}) {
+export default async function Layout(
+  props: {
+    children: React.ReactNode;
+    params: Promise<{ lang: Locale; country: string }>;
+  }
+) {
+  const params = await props.params;
+
+  const {
+    children
+  } = props;
+
   const { lang, country } = params;
   const { t } = await initTranslation(lang);
 

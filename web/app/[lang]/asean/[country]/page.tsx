@@ -9,8 +9,8 @@ import { aseanFlags } from "@resources/images/asean-flags";
 
 import { initTranslation } from "@locales";
 
-export default async function AseanPage(props: { params: { lang: Locale; country: string } }) {
-  const { lang, country } = props.params;
+export default async function AseanPage(props: { params: Promise<{ lang: Locale; country: string }> }) {
+  const { lang, country } = (await props.params);
   const { t } = await initTranslation(lang);
   const article = await repo.primaryArticle.pickLocale(lang).get(`asean-${country}`);
 

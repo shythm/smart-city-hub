@@ -6,17 +6,17 @@ import { SecretLink } from "@components/secret-components";
 const availableKinds = ["notices", "smart-news", "research", "seminar"];
 
 export default async function NewsPage(props: {
-  params: { kind: string };
-  searchParams?: { page?: string };
+  params: Promise<{ kind: string }>;
+  searchParams?: Promise<{ page?: string }>;
 }) {
-  const { kind } = props.params;
+  const { kind } = (await props.params);
   if (!availableKinds.includes(kind)) {
     redirect("/not-found");
   }
 
   const totalCount = await repo.generalArticle.getCountByKind(kind);
   const perPage = 15;
-  const page = parseInt(props.searchParams?.page || "1");
+  const page = parseInt((await props.searchParams)?.page || "1");
 
   const articles = await repo.generalArticle.getList(page, perPage, {
     kindRegex: kind,

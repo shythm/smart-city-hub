@@ -1,4 +1,5 @@
-"use client";
+"use client";;
+import { use } from "react";
 
 import Image from "next/image";
 import Container from "@components/container";
@@ -8,13 +9,18 @@ import { useTranslation } from "react-i18next";
 import { getSolutionCoverByIndex } from "@resources/images/solution-covers";
 import { getSolutionCategory } from "./categories";
 
-export default function Layout({
-  children,
-  params,
-}: {
-  children: React.ReactNode;
-  params: { cateid: string; lang: Locale };
-}) {
+export default function Layout(
+  props: {
+    children: React.ReactNode;
+    params: Promise<{ cateid: string; lang: Locale }>;
+  }
+) {
+  const params = use(props.params);
+
+  const {
+    children
+  } = props;
+
   const { t } = useTranslation();
 
   const cateid = parseInt(params.cateid);

@@ -2,9 +2,9 @@ import { GeneralArticleView } from "@components/general-article-view";
 import { getGeneralArticle, getAttachmentFileList } from "@/actions";
 import { SecretLink } from "@components/secret-components";
 
-export default async function PublishArticleView(props: { params: { kind: string; id: string } }) {
-  const { kind, id } = props.params;
-  const article = await getGeneralArticle(parseInt(props.params.id));
+export default async function PublishArticleView(props: { params: Promise<{ kind: string; id: string }> }) {
+  const { kind, id } = (await props.params);
+  const article = await getGeneralArticle(parseInt((await props.params).id));
   const attachments = await getAttachmentFileList(article);
 
   return (

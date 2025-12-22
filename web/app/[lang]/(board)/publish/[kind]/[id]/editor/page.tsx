@@ -1,4 +1,5 @@
-"use client";
+"use client";;
+import { use } from "react";
 
 import { useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
@@ -7,12 +8,13 @@ const GeneralArticleEditorPage = dynamic(() => import("@pages/general-article-ed
   ssr: false,
 });
 
-export default function BoardArticleEditor(props: { params: { kind: string; id: string } }) {
+export default function BoardArticleEditor(props: { params: Promise<{ kind: string; id: string }> }) {
+  const params = use(props.params);
   const router = useRouter();
   return (
     <GeneralArticleEditorPage
-      kind={props.params.kind}
-      articleId={parseInt(props.params.id)}
+      kind={params.kind}
+      articleId={parseInt(params.id)}
       afterSubmit={(article) => {
         router.push(`/publish/${article.kind}/${article.id}`);
       }}
